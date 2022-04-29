@@ -15,8 +15,10 @@ func Setup(app *fiber.App) {
 	app.Post("/api/login", controller.Login)
 	app.Post("/api/register", controller.Register)
 
-	app.Post("/api/attendance/checkin", controller.Checkin)  //
-	app.Put("/api/attendance/checkout", controller.Checkout) //
+	app.Post("/api/attendance/checkin", controller.Checkin)                     //
+	app.Put("/api/attendance/checkout", controller.Checkout)                    //
+	app.Post("/api/attendance/overtime", controller.GetOvertime)                //
+	app.Post("/api/attendance/overtime/summary", controller.GetSummaryOvertime) //
 	// app.Use(middleware.IsAuthenticate)
 	// app.Get("/api/trashcans", controller.GetTrashCan)
 	// app.Get("/api/trashcan/:id/edit", controller.EditTrashCan)
