@@ -167,3 +167,53 @@ func GetSummaryLate(c *fiber.Ctx) error {
 	})
 
 }
+
+func GetEarlyleave(c *fiber.Ctx) error {
+
+	tempBody := struct {
+		UserID uint
+	}{}
+	if err := c.BodyParser(&tempBody); err != nil {
+		log.Println(err)
+		return err
+	}
+
+	var results []models.Attendance
+	database.DB.Table("attendances").Where("DATE_PART('hour', to_timestamp(clock_out/1000)) < ?", 17).Where("user_id = ?", tempBody.UserID).Find(&results)
+
+	return c.JSON(fiber.Map{
+		"data": results,
+	})
+
+}
+
+func GetSummaryEarlyleave(c *fiber.Ctx) error {
+
+	tempBody := struct {
+		UserID uint
+	}{}
+	if err := c.BodyParser(&tempBody); err != nil {
+		log.Println(err)
+		return err
+	}
+
+	var results []models.Attendance
+	database.DB.Table("attendances").Where("DATE_PART('hour', to_timestamp(clock_out/1000)) < ?", 17).Where("user_id = ?", tempBody.UserID).Find(&results)
+
+	var summary int
+
+	for _, result := range results {
+		// log.Println(time.Unix(0, result.ClockOut*int64(time.Millisecond)))
+		if time.Unix(0, result.ClockOut*int64(time.Millisecond)).Minute() > 0 {
+			summary += ((16-time.Unix(0, result.ClockOut*int64(time.Millisecond)).Hour())*60 + (60 - time.Unix(0, result.ClockOut*int64(time.Millisecond)).Minute()))
+		} else {
+
+			summary += ((17 - time.Unix(0, result.ClockOut*int64(time.Millisecond)).Hour()) * 60)
+		}
+
+	}
+	return c.JSON(fiber.Map{
+		"data": summary,
+	})
+
+}
