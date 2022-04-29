@@ -19,6 +19,8 @@ func Setup(app *fiber.App) {
 	app.Put("/api/attendance/checkout", controller.Checkout)                    //
 	app.Post("/api/attendance/overtime", controller.GetOvertime)                //
 	app.Post("/api/attendance/overtime/summary", controller.GetSummaryOvertime) //
+	app.Post("/api/attendance/late", controller.GetLate)                        //
+	app.Post("/api/attendance/late/summary", controller.GetSummaryLate)         //
 	// app.Use(middleware.IsAuthenticate)
 	// app.Get("/api/trashcans", controller.GetTrashCan)
 	// app.Get("/api/trashcan/:id/edit", controller.EditTrashCan)
