@@ -9,9 +9,7 @@ import (
 
 func Setup(app *fiber.App) {
 	// app.Static("/", "./public")
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("hellow wordldfsjafklds;")
-	})
+	app.Static("/", "./public")
 
 	app.Post("/api/login", controller.Login)
 	app.Post("/api/register", controller.Register)
@@ -19,6 +17,8 @@ func Setup(app *fiber.App) {
 	app.Use(middleware.IsAuthenticate)
 	app.Post("/api/attendance/checkin", controller.Checkin)                         //
 	app.Put("/api/attendance/checkout", controller.Checkout)                        //
+	app.Post("/api/attendances", controller.GetAttendances)                         //
+	app.Post("/api/attendances/summary", controller.GetSummary)                     //
 	app.Post("/api/attendance/overtime", controller.GetOvertime)                    //
 	app.Post("/api/attendance/overtime/summary", controller.GetSummaryOvertime)     //
 	app.Post("/api/attendance/late", controller.GetLate)                            //

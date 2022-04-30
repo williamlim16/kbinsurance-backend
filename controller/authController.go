@@ -114,8 +114,8 @@ func Login(c *fiber.Ctx) error {
 
 	var status models.Attendance
 	var statusUser string
-	database.DB.Table("attendances").Where("user_id = ?", user.ID).Order("id desc").First(&status)
-	if status.ClockOut != 0 {
+	database.DB.Table("attendances").Where("clock_out = 0").Where("user_id = ?", user.ID).Order("id desc").First(&status)
+	if status.ID == 0 {
 		statusUser = "out"
 	} else {
 		statusUser = "in"
