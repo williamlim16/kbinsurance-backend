@@ -70,7 +70,7 @@ func Checkout(c *fiber.Ctx) error {
 
 	}
 
-	database.DB.Model(models.Attendance{}).Where("id = ?", tempBody.UserID).Update("clock_out", time.Now().UnixMilli())
+	database.DB.Model(models.Attendance{}).Where("user_id = ?", tempBody.UserID).Where("clock_out = 0").Update("clock_out", time.Now().UnixMilli())
 
 	c.Status(200)
 

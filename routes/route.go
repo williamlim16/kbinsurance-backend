@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/williamlim16/kbinsurance-backend/controller"
+	"github.com/williamlim16/kbinsurance-backend/middleware"
 )
 
 func Setup(app *fiber.App) {
@@ -15,6 +16,7 @@ func Setup(app *fiber.App) {
 	app.Post("/api/login", controller.Login)
 	app.Post("/api/register", controller.Register)
 
+	app.Use(middleware.IsAuthenticate)
 	app.Post("/api/attendance/checkin", controller.Checkin)                         //
 	app.Put("/api/attendance/checkout", controller.Checkout)                        //
 	app.Post("/api/attendance/overtime", controller.GetOvertime)                    //
@@ -23,7 +25,6 @@ func Setup(app *fiber.App) {
 	app.Post("/api/attendance/late/summary", controller.GetSummaryLate)             //
 	app.Post("/api/attendance/earlyleave", controller.GetEarlyleave)                //
 	app.Post("/api/attendance/earlyleave/summary", controller.GetSummaryEarlyleave) //
-	// app.Use(middleware.IsAuthenticate)
 	// app.Get("/api/trashcans", controller.GetTrashCan)
 	// app.Get("/api/trashcan/:id/edit", controller.EditTrashCan)
 	// app.Post("/api/trashcan", controller.CreateTrashCan)

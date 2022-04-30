@@ -112,11 +112,21 @@ func Login(c *fiber.Ctx) error {
 		HTTPOnly: true,
 	}
 
+	var status models.Attendance
+	var statusUser string
+	database.DB.Table("attendances").Where("user_id = ?", user.ID).Order("id desc").First(&status)
+	if status.ClockOut != 0 {
+		statusUser = "out"
+	} else {
+		statusUser = "in"
+	}
+
 	c.Cookie(&cookie)
 	return c.JSON(fiber.Map{
 		"message": "Login success",
 		"user":    user,
 		"token":   token,
+		"status":  statusUser,
 	})
 
 }
